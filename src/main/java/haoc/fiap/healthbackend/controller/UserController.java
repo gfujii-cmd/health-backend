@@ -6,6 +6,7 @@ import haoc.fiap.healthbackend.response.BaseResponse;
 import haoc.fiap.healthbackend.response.ErrorResponse;
 import haoc.fiap.healthbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +20,15 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @PostMapping("/register")
     public BaseResponse registerUser(@RequestBody User user) {
         String userEmail = user.getEmail();
+        // encoding password
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
         if(userEmail != null && !"".equals(userEmail)){
             User dataUser = userService.findByEmail(userEmail);
             if(dataUser != null){

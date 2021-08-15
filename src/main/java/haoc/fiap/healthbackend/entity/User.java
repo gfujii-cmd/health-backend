@@ -3,6 +3,7 @@ package haoc.fiap.healthbackend.entity;
 import com.sun.istack.NotNull;
 import haoc.fiap.healthbackend.dto.JobDto;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Data
 @Table(name = "")
+@Builder
 public class User {
 
     @Id
