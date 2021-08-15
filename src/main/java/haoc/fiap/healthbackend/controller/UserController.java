@@ -50,7 +50,7 @@ public class UserController {
 
             return BaseResponse.builder()
                     .httpCode(error.getHttpCode())
-                    .message("Resposta do sistema")
+                    .message("Um erro ocorreu")
                     .response(error)
                     .build();
         }
