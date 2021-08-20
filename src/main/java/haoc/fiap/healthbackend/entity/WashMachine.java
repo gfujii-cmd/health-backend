@@ -3,22 +3,22 @@ package haoc.fiap.healthbackend.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
+@Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-@Entity
 @Builder
-@Table(name = "JOBS")
-public class Job {
+@Table(name = "WASH_MACHINE")
+public class WashMachine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "JOB_ID")
+    @Column(name = "WASH_ID")
     private Integer id;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column(name = "LOCATION")
+    private String location;
+
 }

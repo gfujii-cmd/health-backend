@@ -16,7 +16,7 @@ public class UserDto {
 
     private Long score;
 
-    private Long washDataId;
+    private WashMachineDto washDataId;
 
     private JobDto job;
 }

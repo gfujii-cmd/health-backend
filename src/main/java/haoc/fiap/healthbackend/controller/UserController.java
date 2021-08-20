@@ -14,14 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     private UserMapper userMapper;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/register")
     public BaseResponse registerUser(@RequestBody User user) {

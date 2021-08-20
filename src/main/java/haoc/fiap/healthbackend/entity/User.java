@@ -1,7 +1,6 @@
 package haoc.fiap.healthbackend.entity;
 
 import com.sun.istack.NotNull;
-import haoc.fiap.healthbackend.dto.JobDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,42 +12,43 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "")
+@Table(name = "USERS")
 @Builder
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "USER_ID")
     private Integer id;
 
     @NotNull
-    @Column(name = "")
+    @Column(name = "NAME")
     private String name;
 
     @NotNull
-    @Column(name = "")
+    @Column(name = "LAST_NAME")
     private String lastName;
 
     @NotNull
-    @Column(name = "")
+    @Column(name = "EMAIL")
     private String email;
 
     @NotNull
-    @Column(name = "")
+    @Column(name = "PASSWORD")
     private String password;
 
     @NotNull
-    @Column(name = "")
+    @Column(name = "SCORE")
     private Long score;
 
     @NotNull
     @ManyToOne
-    @Column(name = "")
-    private Long washDataId;
+    @JoinColumn(name = "WASH_ID")
+    private WashMachine washDataId;
 
     @NotNull
     @ManyToOne
-    @Column(name = "")
-    private JobDto job;
+    @JoinColumn(name = "JOB_ID")
+    private Job job;
 
 }
