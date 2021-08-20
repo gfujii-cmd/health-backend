@@ -14,12 +14,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors()
                 .and()
+                .headers().frameOptions().disable().and()
+                .csrf()
+                .disable()
                 .authorizeRequests()
-                .antMatchers("/h2-console", "/register").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .csrf().disable();
-
+                .antMatchers("/").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .anyRequest().permitAll();
     }
 
 }
