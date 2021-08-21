@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class UserResponse {
-    private Long code;
+    private Integer httpCode;
     private UserDto response;
     private String error;
 }

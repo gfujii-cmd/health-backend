@@ -2,6 +2,8 @@ package haoc.fiap.healthbackend.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +18,7 @@ public class UserDto {
 
     private Long score;
 
-    private WashMachineDto washDataId;
+    private List<WashMachineDto> washData;
 
     private JobDto job;
 }

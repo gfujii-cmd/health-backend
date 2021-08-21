@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -20,5 +23,11 @@ public class WashMachine {
 
     @Column(name = "LOCATION")
     private String location;
+
+    @Column(name = "DATE")
+    private Date date;
+
+    @Column(name = "COUNT")
+    private Integer count;
 
 }

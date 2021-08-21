@@ -5,8 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -41,14 +45,12 @@ public class User {
     @Column(name = "SCORE")
     private Long score;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "WASH_ID")
-    private WashMachine washDataId;
+    @Nullable
+    @Column(name = "WASH_DATA")
+    private List<WashMachine> washData;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "JOB_ID")
+    @Column(name = "JOB")
     private Job job;
 
 }

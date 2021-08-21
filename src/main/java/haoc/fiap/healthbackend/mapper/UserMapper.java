@@ -1,25 +1,30 @@
 package haoc.fiap.healthbackend.mapper;
 
 import haoc.fiap.healthbackend.dto.UserDto;
+import haoc.fiap.healthbackend.dto.WashMachineDto;
 import haoc.fiap.healthbackend.entity.User;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
+@RequiredArgsConstructor
 public class UserMapper {
 
-    private JobMapper jobMapper;
+    private static JobMapper jobMapper;
 
-    private WashMachineMapper washMachineMapper;
+    private static WashMachineMapper washMachineMapper;
 
-    public UserDto userToDto(User user) {
+    public static UserDto userToDto(User user) {
         return UserDto.builder()
                 .email(user.getEmail())
-                .job(jobMapper.jobToDto(user.getJob()))
+                .job(JobMapper.jobToDto(user.getJob()))
                 .lastName(user.getLastName())
                 .name(user.getName())
                 .score(user.getScore())
-                .washDataId(washMachineMapper.washToDto(user.getWashDataId()))
+                .washData(new ArrayList<>())
                 .build();
     }
 }
