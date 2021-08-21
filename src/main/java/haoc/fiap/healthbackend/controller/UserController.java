@@ -8,7 +8,7 @@ import haoc.fiap.healthbackend.response.ErrorResponse;
 import haoc.fiap.healthbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -20,10 +20,14 @@ public class UserController {
 
     private static UserMapper userMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public BaseResponse registerUser(@RequestBody User user) {
         String userEmail = user.getEmail();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         if(userEmail != null && !"".equals(userEmail)){
             User dataUser = userService.findByEmail(userEmail);
             if(dataUser != null){
