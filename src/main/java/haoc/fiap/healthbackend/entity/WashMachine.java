@@ -6,14 +6,12 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Data
 @AllArgsConstructor
 @Builder
-@Table(name = "WASH_MACHINE")
+@Table(name = "WASH_MACHINES")
 public class WashMachine {
 
     @Id
@@ -29,5 +27,4 @@ public class WashMachine {
 
     @Column(name = "COUNT")
     private Integer count;
-
 }

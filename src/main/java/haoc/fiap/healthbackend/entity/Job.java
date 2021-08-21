@@ -1,5 +1,7 @@
 package haoc.fiap.healthbackend.entity;
 
+import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,10 +17,19 @@ import javax.persistence.*;
 public class Job {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "JOB_ID")
     private Integer id;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @NotNull
+    @Column(name = "NAME")
+    private String name;
+
+    @Nullable
+    @Column(name = "ENTRY_HOUR")
+    private Integer entryHour;
+
+    @Nullable
+    @Column(name = "EXIT_HOUR")
+    private Integer exitHour;
+
 }

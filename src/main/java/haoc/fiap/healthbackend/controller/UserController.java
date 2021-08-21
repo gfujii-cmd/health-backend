@@ -24,7 +24,6 @@ public class UserController {
     @PostMapping("/register")
     public BaseResponse registerUser(@RequestBody User user) {
         String userEmail = user.getEmail();
-
         if(userEmail != null && !"".equals(userEmail)){
             User dataUser = userService.findByEmail(userEmail);
             if(dataUser != null){
@@ -36,6 +35,7 @@ public class UserController {
             }
         }
         try {
+            user.setScore(0L);
             User newUser = userService.registerUser(user);
             if(newUser != null){
                 return BaseResponse.<UserDto>builder()

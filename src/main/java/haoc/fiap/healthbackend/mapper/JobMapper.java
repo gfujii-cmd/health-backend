@@ -4,7 +4,6 @@ import haoc.fiap.healthbackend.dto.JobDto;
 import haoc.fiap.healthbackend.entity.Job;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +12,7 @@ public class JobMapper {
 
     public static JobDto jobToDto(Job job){
         return JobDto.builder()
-                .description(job.getDescription())
+                .name(job.getName())
                 .build();
     }
 

@@ -7,5 +7,5 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class JobDto {
-    private String description;
+    private String name;
 }

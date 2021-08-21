@@ -45,12 +45,10 @@ public class User {
     @Column(name = "SCORE")
     private Long score;
 
-    @Nullable
-    @Column(name = "WASH_DATA")
-    private List<WashMachine> washData;
-
-    @NotNull
-    @Column(name = "JOB")
+//    private WashMachine washMachine;
+//
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "JOB_ID")
     private Job job;
 
 }
