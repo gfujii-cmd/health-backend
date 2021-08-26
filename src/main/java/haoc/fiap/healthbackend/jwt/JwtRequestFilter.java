@@ -1,4 +1,4 @@
-package jwt;
+package haoc.fiap.healthbackend.jwt;
 
 import haoc.fiap.healthbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
     private final UserService service;
 
-    private final JwtTokenUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

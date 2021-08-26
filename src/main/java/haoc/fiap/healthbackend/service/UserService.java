@@ -5,13 +5,13 @@ import haoc.fiap.healthbackend.mapper.UserMapper;
 import haoc.fiap.healthbackend.repository.UserRepository;
 import haoc.fiap.healthbackend.resquest.LoginRequest;
 import haoc.fiap.healthbackend.resquest.UserRequest;
-import jwt.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import haoc.fiap.healthbackend.jwt.JwtUtil;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-    private final JwtTokenUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
     @Autowired
     private UserRepository repository;

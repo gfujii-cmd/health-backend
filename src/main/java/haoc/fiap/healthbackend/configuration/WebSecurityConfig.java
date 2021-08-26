@@ -1,8 +1,8 @@
 package haoc.fiap.healthbackend.configuration;
 
+import haoc.fiap.healthbackend.jwt.JwtAuthenticationEntryPoint;
+import haoc.fiap.healthbackend.jwt.JwtRequestFilter;
 import haoc.fiap.healthbackend.service.UserService;
-import jwt.JwtAuthenticationEntryPoint;
-import jwt.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -38,20 +37,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/h2-console/**", "/swagger-ui.html",
-                        "/health/jobs/**", "/register").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/health/users/**").permitAll()
+                        "/health/jobs/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder()
-    {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
