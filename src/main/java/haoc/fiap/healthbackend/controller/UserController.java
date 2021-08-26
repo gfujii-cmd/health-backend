@@ -5,9 +5,17 @@ import haoc.fiap.healthbackend.entity.User;
 import haoc.fiap.healthbackend.mapper.UserMapper;
 import haoc.fiap.healthbackend.response.BaseResponse;
 import haoc.fiap.healthbackend.response.ErrorResponse;
+import haoc.fiap.healthbackend.response.TokenResponse;
+import haoc.fiap.healthbackend.resquest.LoginRequest;
+import haoc.fiap.healthbackend.resquest.UserRequest;
 import haoc.fiap.healthbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,50 +25,28 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-
-    private static UserMapper userMapper;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public BaseResponse registerUser(@RequestBody User user) {
-        String userEmail = user.getEmail();
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        if(userEmail != null && !"".equals(userEmail)){
-            User dataUser = userService.findByEmail(userEmail);
-            if(dataUser != null){
-                return BaseResponse.builder()
-                        .httpCode(409)
-                        .message("User with email " + userEmail + " already exists")
-                        .response(null)
-                        .build();
-            }
-        }
-        try {
-            user.setScore(0L);
-            User newUser = userService.registerUser(user);
-            if(newUser != null){
-                return BaseResponse.<UserDto>builder()
-                        .httpCode(200)
-                        .response(userMapper.userToDto(newUser))
-                        .message("User " + newUser.getName() + " created with success!")
-                        .build();
-            }
-        } catch (Error e) {
-            ErrorResponse error = ErrorResponse.builder()
-                    .error(e.getMessage())
-                    .httpCode(500)
-                    .message(e.getLocalizedMessage())
-                    .build();
-
-            return BaseResponse.builder()
-                    .httpCode(error.getHttpCode())
-                    .message("Um erro ocorreu")
-                    .response(error)
-                    .build();
-        }
-        return null;
+    public ResponseEntity<TokenResponse> createUser(@RequestBody UserRequest request) {
+        userService.registerUser(request);
+        return authUser(LoginRequest.builder().email(request.getEmail()).password(request.getPassword()).build());
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponse> authUser(@RequestBody LoginRequest request) {
+        this.authenticate(request);
+        return ResponseEntity.ok(TokenResponse.builder().token(this.userService.getToken(request)).build());
+    }
+
+    private void authenticate(LoginRequest request) {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        } catch (DisabledException e) {
+            throw new DisabledException("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new BadCredentialsException("INVALID_CREDENTIALS", e);
+        }
+    }
+
 }

@@ -1,16 +1,13 @@
 package haoc.fiap.healthbackend.entity;
 
 import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -45,8 +42,14 @@ public class User {
     @Column(name = "SCORE")
     private Long score;
 
-//    private WashMachine washMachine;
-//
+    @Nullable
+    @Column(name = "ENTRY_HOUR")
+    private Integer entryHour;
+
+    @Nullable
+    @Column(name = "EXIT_HOUR")
+    private Integer exitHour;
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "JOB_ID")
     private Job job;

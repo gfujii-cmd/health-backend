@@ -1,5 +1,6 @@
 package haoc.fiap.healthbackend.resquest;
 
+import haoc.fiap.healthbackend.entity.Job;
 import lombok.Data;
 
 @Data
@@ -13,5 +14,5 @@ public class UserRequest {
 
     private String email;
 
-    private Long jobId;
+    private Job job;
 }

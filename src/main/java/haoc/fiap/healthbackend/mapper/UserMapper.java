@@ -3,8 +3,10 @@ package haoc.fiap.healthbackend.mapper;
 import haoc.fiap.healthbackend.dto.UserDto;
 import haoc.fiap.healthbackend.dto.WashMachineDto;
 import haoc.fiap.healthbackend.entity.User;
+import haoc.fiap.healthbackend.resquest.UserRequest;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,19 @@ public class UserMapper {
                 .name(user.getName())
                 .score(user.getScore())
                 .washData(new ArrayList<>())
+                .build();
+    }
+
+    public static User toUser(UserRequest request) {
+        return User.builder()
+                .name(request.getName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(new BCryptPasswordEncoder().encode(request.getPassword()))
+                .job(request.getJob())
+                .score(0L)
+                .entryHour(0)
+                .exitHour(0)
                 .build();
     }
 }
