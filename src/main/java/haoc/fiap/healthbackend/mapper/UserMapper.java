@@ -22,7 +22,7 @@ public class UserMapper {
     public static UserDto userToDto(User user) {
         return UserDto.builder()
                 .email(user.getEmail())
-//                .job(JobMapper.jobToDto(user.getJob()))
+                .job(JobMapper.jobToDto(user.getJob()))
                 .lastName(user.getLastName())
                 .name(user.getName())
                 .score(user.getScore())

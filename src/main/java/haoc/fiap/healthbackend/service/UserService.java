@@ -1,5 +1,6 @@
 package haoc.fiap.healthbackend.service;
 
+import haoc.fiap.healthbackend.dto.UserDto;
 import haoc.fiap.healthbackend.entity.User;
 import haoc.fiap.healthbackend.mapper.UserMapper;
 import haoc.fiap.healthbackend.repository.UserRepository;
@@ -28,8 +29,11 @@ public class UserService implements UserDetailsService {
         return repository.save(UserMapper.toUser(user));
     }
 
-    public User findByEmail(String email) {
-        return repository.findByEmail(email);
+    public UserDto findByEmail(String email) {
+        User user = repository.findByEmail(email);
+        if(user != null){
+            return UserMapper.userToDto(user);
+        } else return null;
     }
 
     @Override
