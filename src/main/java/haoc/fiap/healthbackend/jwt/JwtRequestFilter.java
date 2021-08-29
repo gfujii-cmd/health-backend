@@ -35,7 +35,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        return (path.startsWith("/api/v1/users") && request.getMethod() == "POST");
+        return (path.startsWith("user") && request.getMethod() == "POST");
     }
 
     private void getInternalAuthentication(HttpServletRequest request) {
