@@ -54,4 +54,8 @@ public class User {
     @JoinColumn(name = "JOB_ID")
     private Job job;
 
+    @Nullable
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "BADGE_ID")
+    private Badge badge;
 }
