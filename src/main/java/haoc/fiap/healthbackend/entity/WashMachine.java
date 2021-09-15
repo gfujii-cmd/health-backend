@@ -25,6 +25,11 @@ public class WashMachine {
     @Column(name = "DATE")
     private Date date;
 
+    @Column(name = "HOUR")
+    private Integer hour;
+
     @Column(name = "COUNT")
     private Integer count;
+
+
 }

@@ -56,6 +56,11 @@ public class User {
 
     @Nullable
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "WASH_ID")
+    private WashMachine washMachine;
+
+    @Nullable
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "BADGE_ID")
     private Badge badge;
 }
