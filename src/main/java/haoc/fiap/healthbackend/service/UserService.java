@@ -25,7 +25,10 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository repository;
 
-    public User registerUser(UserRequest user){
+    public User registerUser(UserRequest user) throws Exception{
+        if(user.getPassword().length() < 8){
+            throw new Exception("Senha menor que 8 caracteres");
+        }
         return repository.save(UserMapper.toUser(user));
     }
 

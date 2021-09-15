@@ -24,9 +24,12 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public ResponseEntity<TokenResponse> createUser(@RequestBody UserRequest request) {
+    public ResponseEntity<TokenResponse> createUser(@RequestBody UserRequest request)
+            throws Exception {
         userService.registerUser(request);
-        return authUser(LoginRequest.builder().email(request.getEmail()).password(request.getPassword()).build());
+        return authUser(LoginRequest.builder().
+                email(request.getEmail())
+                .password(request.getPassword()).build());
     }
 
     @PostMapping("/login")
