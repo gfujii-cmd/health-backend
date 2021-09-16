@@ -3,6 +3,8 @@ package haoc.fiap.healthbackend.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,10 +25,13 @@ public class WashMachine {
     private String location;
 
     @Column(name = "DATE")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "HOUR")
-    private Integer hour;
+    private LocalTime hour;
+
+    @Column(name = "LAST_HOUR")
+    private LocalTime lastHour;
 
     @Column(name = "COUNT")
     private Integer count;
