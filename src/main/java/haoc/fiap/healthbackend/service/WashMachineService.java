@@ -9,11 +9,14 @@ import haoc.fiap.healthbackend.repository.WashMachineRepository;
 import haoc.fiap.healthbackend.resquest.WashMachineInfoRequest;
 import jdk.vm.ci.meta.Local;
 import lombok.RequiredArgsConstructor;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.DocFlavor;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -32,10 +35,16 @@ public class WashMachineService {
 
         if(user.isPresent()) {
             if (washData.isPresent()) {
-                Integer timeInterval = LocalTime.now().getMinuteOfHour() - washData.get().getLastMinute();
+                // Aceitacao de intervalo
+                Boolean isIntervalAccepted = isIntervalAccepted(LocalTime.now().getHourOfDay(),
+                        LocalTime.now().getMinuteOfHour(), washData.get().getLastHour(),
+                        washData.get().getLastMinute(), washData.get().getDate());
 
-                if (timeInterval <= 5) {
-                    throw new Exception("Tempo não passa de 5 minutos!");
+                // Checa para ver se é a mesma pessoa que vem no request com o banco
+                Boolean isSamePerson = Objects.equals(washData.get().getLastUserMail(), user.get().getEmail());
+
+                if (isSamePerson && !isIntervalAccepted) {
+                    throw new Exception("Tempo não passa de 5 minutos para a mesma pessoa!");
                 } else {
                     // Criando nova maquina com dados novos
                     WashMachine machineEntity = setNewEntity(washData.get(), user.get().getEmail());
@@ -88,4 +97,16 @@ public class WashMachineService {
         return washMachineEntity;
     }
 
+    public Boolean isIntervalAccepted(Integer hour, Integer minute, Integer lastHour, Integer lastMinute, String date) {
+        Boolean isAfterNowDate = LocalDate.now().isAfter(LocalDate.parse(date));
+        if(isAfterNowDate && lastHour > hour) {
+            return true;
+        } else {
+            Integer lastTime = (lastHour * 60) + lastMinute;
+            Integer nowTime = (hour * 60) + minute;
+
+            return nowTime - lastTime <= 5 ? false : true;
+
+        }
+    }
 }
