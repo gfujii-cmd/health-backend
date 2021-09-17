@@ -16,6 +16,7 @@ import javax.persistence.*;
 public class Job {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "JOB_ID")
     private Integer id;
 
