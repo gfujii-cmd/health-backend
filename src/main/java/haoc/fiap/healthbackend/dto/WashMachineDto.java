@@ -10,8 +10,10 @@ import org.joda.time.LocalTime;
 @Builder
 public class WashMachineDto {
     private String location;
-    private LocalDate date;
+    private String date;
     private Integer count;
-    private LocalTime hour;
-    private LocalTime lastHour;
+    private Integer hour;
+    private Integer minute;
+    private Integer lastHour;
+    private Integer lastMinute;
 }

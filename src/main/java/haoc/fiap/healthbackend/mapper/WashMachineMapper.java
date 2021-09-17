@@ -10,13 +10,15 @@ import java.util.Date;
 @Data
 public class WashMachineMapper {
 
-    public WashMachineDto washToDto(WashMachine wash){
+    public static WashMachineDto washToDto(WashMachine wash){
         return WashMachineDto.builder()
                 .location(wash.getLocation())
                 .date(wash.getDate())
                 .count(wash.getCount())
                 .hour(wash.getHour())
+                .minute(wash.getMinute())
                 .lastHour(wash.getLastHour())
+                .lastMinute(wash.getLastMinute())
                 .build();
     }
 }

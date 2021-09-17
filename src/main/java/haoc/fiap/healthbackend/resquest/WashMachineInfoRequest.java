@@ -10,6 +10,4 @@ public class WashMachineInfoRequest {
     private Integer userId;
 
     private Integer machineId;
-
-    private String location;
 }
