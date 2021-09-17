@@ -25,11 +25,12 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository repository;
 
-    public User registerUser(UserRequest user) throws Exception{
+    public UserDto registerUser(UserRequest user) throws Exception{
         if(user.getPassword().length() < 8){
             throw new Exception("Senha menor que 8 caracteres");
         }
-        return repository.save(UserMapper.toUser(user));
+        User response = repository.save(UserMapper.toUser(user));
+        return UserMapper.userToDto(response);
     }
 
     public UserDto findByEmail(String email) {

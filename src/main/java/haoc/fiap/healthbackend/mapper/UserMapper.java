@@ -6,6 +6,7 @@ import haoc.fiap.healthbackend.entity.User;
 import haoc.fiap.healthbackend.resquest.UserRequest;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.joda.time.DateTime;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class UserMapper {
                 .name(user.getName())
                 .score(user.getScore())
                 .washData(new ArrayList<>())
+                .createdAt(DateTime.now().toString())
+                .updatedAt(DateTime.now().toString())
                 .build();
     }
 
@@ -40,6 +43,8 @@ public class UserMapper {
                 .score(0L)
                 .entryHour(0)
                 .exitHour(0)
+                .createdAt(DateTime.now().toString())
+                .updatedAt(DateTime.now().toString())
                 .build();
     }
 }

@@ -1,6 +1,7 @@
 package haoc.fiap.healthbackend.controller;
 
 import haoc.fiap.healthbackend.dto.UserDto;
+import haoc.fiap.healthbackend.entity.User;
 import haoc.fiap.healthbackend.response.BaseResponse;
 import haoc.fiap.healthbackend.response.TokenResponse;
 import haoc.fiap.healthbackend.resquest.LoginRequest;
@@ -24,12 +25,13 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
-    public ResponseEntity<TokenResponse> createUser(@RequestBody UserRequest request)
+    public ResponseEntity<BaseResponse<UserDto>> createUser(@RequestBody UserRequest request)
             throws Exception {
-        userService.registerUser(request);
-        return authUser(LoginRequest.builder().
-                email(request.getEmail())
-                .password(request.getPassword()).build());
+        return ResponseEntity.ok(BaseResponse.<UserDto>builder()
+                        .response(userService.registerUser(request))
+                        .httpCode(200)
+                        .message("Usuário criado com sucesso")
+                .build());
     }
 
     @PostMapping("/login")

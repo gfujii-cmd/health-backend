@@ -1,6 +1,7 @@
 package haoc.fiap.healthbackend.dto;
 
 import lombok.*;
+import org.joda.time.DateTime;
 
 import java.util.List;
 
@@ -21,4 +22,8 @@ public class UserDto {
     private List<WashMachineDto> washData;
 
     private JobDto job;
+
+    private String createdAt;
+
+    private String updatedAt;
 }
