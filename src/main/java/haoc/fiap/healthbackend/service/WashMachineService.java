@@ -7,15 +7,12 @@ import haoc.fiap.healthbackend.mapper.WashMachineMapper;
 import haoc.fiap.healthbackend.repository.UserRepository;
 import haoc.fiap.healthbackend.repository.WashMachineRepository;
 import haoc.fiap.healthbackend.resquest.WashMachineInfoRequest;
-import jdk.vm.ci.meta.Local;
 import lombok.RequiredArgsConstructor;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.print.DocFlavor;
 import java.util.Objects;
 import java.util.Optional;
 
