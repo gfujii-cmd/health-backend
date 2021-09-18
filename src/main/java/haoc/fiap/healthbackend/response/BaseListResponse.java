@@ -9,6 +9,6 @@ import java.util.List;
 @Builder
 public class BaseListResponse<T> {
     private Integer httpCode;
-    private List<T> data;
-    private String error;
+    private List<T> response;
+    private String message;
 }

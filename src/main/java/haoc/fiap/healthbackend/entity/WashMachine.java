@@ -21,7 +21,7 @@ import java.util.Date;
 public class WashMachine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "WASH_ID")
     private Integer id;
 

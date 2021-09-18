@@ -12,6 +12,7 @@ public class JobMapper {
 
     public static JobDto jobToDto(Job job){
         return JobDto.builder()
+                .jobId(job.getId())
                 .name(job.getName())
                 .build();
     }

@@ -14,6 +14,7 @@ public class JobService {
     private JobRepository jobRepository;
 
     public List<Job> getAllJobs(){
-       return this.jobRepository.findAll();
+       return jobRepository.findAll();
     }
+
 }
