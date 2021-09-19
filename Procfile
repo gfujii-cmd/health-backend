@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/health-backend-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -jar build/libs/health-backend-0.0.1-SNAPSHOT.jar
