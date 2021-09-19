@@ -14,14 +14,6 @@ configurations {
 	}
 }
 
-jar {
-	manifest {
-		attributes(
-				'Main-Class': 'haoc.fiap.healthbackend.HealthBackendApplication'
-		)
-	}
-}
-
 repositories {
 	mavenCentral()
 }
