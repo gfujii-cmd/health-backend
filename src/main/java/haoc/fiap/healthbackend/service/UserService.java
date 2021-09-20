@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import haoc.fiap.healthbackend.jwt.JwtUtil;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,5 +50,20 @@ public class UserService implements UserDetailsService {
 
     public String getToken(LoginRequest request) {
         return this.jwtUtil.generateToken(repository.findByEmail(request.getEmail()));
+    }
+
+    public Integer getUserScore(Integer id) throws Exception {
+        try{
+            Optional<User> user = repository.findById(id);
+
+            if(user.isPresent()) {
+                return repository.getUserScore(id);
+            }
+
+            throw new Exception("Usuário não encontrado");
+
+        } catch(Exception e){
+            throw new Exception(e.getMessage(), e);
+        }
     }
 }

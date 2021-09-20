@@ -60,4 +60,15 @@ public class UserController {
         }
     }
 
+    @GetMapping("/{id}/score")
+    public ResponseEntity<BaseResponse<Integer>> getUserScore(@PathVariable("id") Integer id) throws Exception{
+        Integer score = userService.getUserScore(id);
+
+        return ResponseEntity.ok(BaseResponse.<Integer>builder()
+                        .response(score)
+                        .message("Score retornado com sucesso")
+                        .httpCode(200)
+                .build());
+    }
+
 }

@@ -21,12 +21,12 @@ public class BadgeController {
     private final BadgeService badgeService;
 
     @GetMapping("/all")
-    public ResponseEntity<BaseListResponse<BadgeDto>> getAllBadges(){
+    public ResponseEntity<BaseListResponse<BadgeDto>> getAllBadges() {
         List<Badge> badgeList = badgeService.getAllBadges();
         return ResponseEntity.ok(BaseListResponse.<BadgeDto>builder()
-                        .response(BadgeMapper.badgeDtoToDtoList(badgeList))
-                        .httpCode(200)
-                        .message("Todas as insignias retornadas com sucesso")
+                .response(BadgeMapper.badgeDtoToDtoList(badgeList))
+                .httpCode(200)
+                .message("Todas as insignias retornadas com sucesso")
                 .build());
     }
 }
