@@ -30,6 +30,7 @@ public class UserMapper {
                 .washData(new ArrayList<>())
                 .createdAt(DateTime.now().toString())
                 .updatedAt(DateTime.now().toString())
+                .count(0)
                 .build();
     }
 
@@ -45,6 +46,7 @@ public class UserMapper {
                 .exitHour(0)
                 .createdAt(DateTime.now().toString())
                 .updatedAt(DateTime.now().toString())
+                .count(0)
                 .build();
     }
 }
