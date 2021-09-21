@@ -1,18 +1,24 @@
 package haoc.fiap.healthbackend.service;
 
 import haoc.fiap.healthbackend.dto.WashMachineDto;
+import haoc.fiap.healthbackend.entity.HandWashData;
 import haoc.fiap.healthbackend.entity.User;
 import haoc.fiap.healthbackend.entity.WashMachine;
 import haoc.fiap.healthbackend.mapper.WashMachineMapper;
+import haoc.fiap.healthbackend.repository.HandWashRepository;
 import haoc.fiap.healthbackend.repository.UserRepository;
 import haoc.fiap.healthbackend.repository.WashMachineRepository;
 import haoc.fiap.healthbackend.resquest.WashMachineInfoRequest;
+import jdk.vm.ci.meta.Local;
 import lombok.RequiredArgsConstructor;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.Month;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -25,6 +31,9 @@ public class WashMachineService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private HandWashRepository handWashRepository;
 
     public WashMachineDto setWashMachineInfo(WashMachineInfoRequest request) throws Exception {
         Optional<WashMachine> washData = getWashMachineInfo(request.getMachineId());
@@ -48,6 +57,12 @@ public class WashMachineService {
 
                     // Setando a nova wash machine do usuario
                     user.get().setWashMachine(machineEntity);
+
+                    // Aumentando count do usuário
+                    user.get().setCount(user.get().getCount() + 1);
+
+                    // Salvando dados para analise em uma outra tabela
+                    saveWashData(user.get());
 
                     // Salvando no banco
                     washMachineRepository.save(machineEntity);
@@ -105,5 +120,80 @@ public class WashMachineService {
             return nowTime - lastTime <= 5 ? false : true;
 
         }
+    }
+
+    private void saveWashData(User user) throws Exception {
+        // Criando dados para serem consumidos pelo analytics
+
+        // Setando dias e meses para comparar
+        int dayOfWeekInt = LocalDate.now().getDayOfWeek();
+        int monthInt = LocalDate.now().getMonthOfYear();
+
+        String monthNow = Month.of(monthInt).toString();
+        String dayOfWeekNow = DayOfWeek.of(dayOfWeekInt).toString();
+
+        HandWashData handWashData = getWashData(user);
+
+        String monthAtDatabase = handWashData.getMonth();
+
+        if(Objects.equals(monthNow, monthAtDatabase)) {
+            handWashRepository.save(chooseDayToCount(handWashData, user, dayOfWeekInt,true));
+        } else {
+            handWashRepository.save(chooseDayToCount(handWashData, user, dayOfWeekInt,false));
+        }
+
+    }
+
+    private HandWashData getWashData(User user) throws Exception{
+        try {
+            HandWashData handWashData = handWashRepository.getById(user.getId());
+            return handWashData;
+
+        } catch (Exception e){
+            throw new Exception("Dados não encontrados", e);
+        }
+    }
+
+    private HandWashData chooseDayToCount(HandWashData handWashData, User user,
+                                          Integer dayOfWeekInt, Boolean sameMonth){
+        // Se for no mesmo mês mantem os valores, se não zera
+        handWashData = sameMonth ? handWashData : setZeroInAllDays(handWashData);
+
+        switch(dayOfWeekInt){
+            case 1:
+                handWashData.setCountMonday(handWashData.getCountMonday() + 1);
+                break;
+            case 2:
+                handWashData.setCountTuesday(handWashData.getCountTuesday() + 1);
+                break;
+            case 3:
+                handWashData.setCountWednesday(handWashData.getCountWednesday() + 1);
+                break;
+            case 4:
+                handWashData.setCountThursday(handWashData.getCountThursday() + 1);
+                break;
+            case 5:
+                handWashData.setCountFriday(handWashData.getCountFriday() + 1);
+                break;
+            case 6:
+                handWashData.setCountSaturday(handWashData.getCountSaturday() + 1);
+                break;
+            case 7:
+                handWashData.setCountSunday(handWashData.getCountSunday() + 1);
+                break;
+        }
+        return handWashData;
+    }
+
+    private HandWashData setZeroInAllDays(HandWashData handWashData){
+        handWashData.setCountMonday(0);
+        handWashData.setCountTuesday(0);
+        handWashData.setCountWednesday(0);
+        handWashData.setCountThursday(0);
+        handWashData.setCountFriday(0);
+        handWashData.setCountSaturday(0);
+        handWashData.setCountSunday(0);
+
+        return handWashData;
     }
 }

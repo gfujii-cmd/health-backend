@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @AllArgsConstructor
@@ -16,12 +17,18 @@ import javax.persistence.*;
 @Data
 @Table(name = "USERS")
 @Builder
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = -4274228635096545268L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
     private Integer id;
+
+    @Nullable
+    @Column(name = "RFID_TAG")
+    private String rfid;
 
     @NotNull
     @Column(name = "NAME")

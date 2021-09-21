@@ -25,6 +25,10 @@ public class WashMachine {
     @Column(name = "WASH_ID")
     private Integer id;
 
+    @Nullable
+    @Column(name = "MAC_ADDRESS")
+    private String macAddress;
+
     @NotNull
     @Column(name = "LOCATION")
     private String location;

@@ -26,4 +26,6 @@ public class UserDto {
     private String createdAt;
 
     private String updatedAt;
+
+    private Integer count;
 }
