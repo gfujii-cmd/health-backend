@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class HandWashDataController {
 
-    private HandWashService handWashService;
+    private final HandWashService handWashService;
 
     @GetMapping("{id}")
     public ResponseEntity<BaseResponse<HandWashDataDto>> getWashData(@PathVariable("id") Integer id)
