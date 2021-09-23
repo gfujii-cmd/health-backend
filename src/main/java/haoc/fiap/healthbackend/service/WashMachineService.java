@@ -61,6 +61,9 @@ public class WashMachineService {
                     // Aumentando count do usuário
                     user.get().setCount(user.get().getCount() + 1);
 
+                    // Aumenta o score em 5
+                    user.get().setScore(user.get().getScore() + 10);
+
                     // Salvando dados para analise em uma outra tabela
                     saveWashData(user.get());
 

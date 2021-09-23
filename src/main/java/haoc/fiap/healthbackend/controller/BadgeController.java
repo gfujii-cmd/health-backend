@@ -4,12 +4,11 @@ import haoc.fiap.healthbackend.dto.BadgeDto;
 import haoc.fiap.healthbackend.entity.Badge;
 import haoc.fiap.healthbackend.mapper.BadgeMapper;
 import haoc.fiap.healthbackend.response.BaseListResponse;
+import haoc.fiap.healthbackend.response.BaseResponse;
 import haoc.fiap.healthbackend.service.BadgeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +26,16 @@ public class BadgeController {
                 .response(BadgeMapper.badgeDtoToDtoList(badgeList))
                 .httpCode(200)
                 .message("Todas as insignias retornadas com sucesso")
+                .build());
+    }
+
+    @PostMapping("user/{userId}/upgrade")
+    public ResponseEntity<BaseResponse<BadgeDto>> setNewBadge(@PathVariable("userId") Integer id)
+            throws Exception{
+        return ResponseEntity.ok(BaseResponse.<BadgeDto>builder()
+                        .message("OK")
+                        .response(badgeService.setNewBadge(id))
+                        .httpCode(200)
                 .build());
     }
 }
