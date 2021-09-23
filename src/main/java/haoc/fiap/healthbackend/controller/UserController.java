@@ -16,6 +16,8 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("user")
@@ -68,6 +70,15 @@ public class UserController {
                         .response(score)
                         .message("Score retornado com sucesso")
                         .httpCode(200)
+                .build());
+    }
+
+    @GetMapping("/top")
+    public ResponseEntity<BaseResponse<List<UserDto>>> getTopList(){
+        return ResponseEntity.ok(BaseResponse.<List<UserDto>>builder()
+                        .httpCode(200)
+                        .message("OK")
+                        .response(userService.getTopList())
                 .build());
     }
 

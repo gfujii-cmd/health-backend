@@ -18,7 +18,9 @@ import haoc.fiap.healthbackend.jwt.JwtUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -86,5 +88,11 @@ public class UserService implements UserDetailsService {
                         .countSaturday(0)
                         .countSunday(0)
                 .build());
+    }
+
+    public List<UserDto> getTopList(){
+        return repository.getTopList().stream()
+                .map(UserMapper::userToDto)
+                .collect(Collectors.toList());
     }
 }
