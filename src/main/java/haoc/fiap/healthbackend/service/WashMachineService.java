@@ -9,7 +9,6 @@ import haoc.fiap.healthbackend.repository.HandWashRepository;
 import haoc.fiap.healthbackend.repository.UserRepository;
 import haoc.fiap.healthbackend.repository.WashMachineRepository;
 import haoc.fiap.healthbackend.resquest.WashMachineInfoRequest;
-import jdk.vm.ci.meta.Local;
 import lombok.RequiredArgsConstructor;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
