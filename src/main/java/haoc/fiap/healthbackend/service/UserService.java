@@ -123,6 +123,19 @@ public class UserService implements UserDetailsService {
         } catch (Exception e){
             throw new Exception(e.getMessage(), e);
         }
+    }
 
+    public UserDto setRfid(String email, String rfid) throws Exception {
+        try{
+            User user = repository.findByEmail(email);
+
+            if(user != null){
+                user.setRfid(rfid);
+            }
+            throw new Exception("Usuário não encontrado");
+
+        } catch (Exception e){
+            throw new Exception(e.getMessage(), e);
+        }
     }
 }

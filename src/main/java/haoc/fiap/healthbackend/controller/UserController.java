@@ -82,4 +82,14 @@ public class UserController {
                 .build());
     }
 
+    @PutMapping("/{email}/set-rfid/{rfid}")
+    public ResponseEntity<BaseResponse<UserDto>> setRfid(@PathVariable("email") String email,
+                                                         @PathVariable("rfid") String rfid) throws Exception {
+        return ResponseEntity.ok(BaseResponse.<UserDto>builder()
+                        .httpCode(200)
+                        .message("Cadastrado com sucesso")
+                        .response(userService.setRfid(email, rfid))
+                .build());
+    }
+
 }
