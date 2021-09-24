@@ -5,13 +5,11 @@ import haoc.fiap.healthbackend.entity.Job;
 import haoc.fiap.healthbackend.mapper.JobMapper;
 import haoc.fiap.healthbackend.response.BaseListResponse;
 import haoc.fiap.healthbackend.response.BaseResponse;
+import haoc.fiap.healthbackend.resquest.JobRequest;
 import haoc.fiap.healthbackend.service.JobService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +28,14 @@ public class JobController {
                 .httpCode(200)
                 .message("Jobs retornados com sucesso")
                 .build());
+   }
+
+   @PostMapping("/new")
+    public ResponseEntity<BaseResponse<JobDto>> newJob(@RequestBody JobRequest jobRequest){
+       return ResponseEntity.ok(BaseResponse.<JobDto>builder()
+                       .response(jobService.newJob(jobRequest))
+                       .message("Cadastrado com sucesso")
+                       .httpCode(200)
+               .build());
    }
 }
