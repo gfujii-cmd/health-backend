@@ -13,11 +13,13 @@ import haoc.fiap.healthbackend.resquest.LoginRequest;
 import haoc.fiap.healthbackend.resquest.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import haoc.fiap.healthbackend.jwt.JwtUtil;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ public class UserService implements UserDetailsService {
     private final JwtUtil jwtUtil;
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Autowired
     private HandWashRepository handWashRepository;
@@ -44,17 +46,25 @@ public class UserService implements UserDetailsService {
         if(user.getPassword().length() < 8){
             throw new Exception("Senha menor que 8 caracteres");
         }
-        Job job = jobRepository.findByName(user.getJob().getName());
-        if(job != null){
-            user.setJob(job);
+
+        Optional<User> userInDatabase = Optional.ofNullable(userRepository.findByEmail(user.getEmail()));
+
+        if(userInDatabase.isPresent()){
+            throw new ResponseStatusException(HttpStatus.MULTI_STATUS, "Usuário já existe");
         }
-        User response = repository.save(UserMapper.toUser(user));
-        registerWashData(response);
-        return UserMapper.userToDto(response);
+        Optional<Job> job = jobRepository.findByName(user.getJob().getName());
+        if(job.isPresent()){
+            user.setJob(job.get());
+            User response = userRepository.save(UserMapper.toUser(user));
+            registerWashData(response);
+            return UserMapper.userToDto(response);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Job " + user.getJob().getName() + " não existe!");
+        }
     }
 
     public UserDto findByEmail(String email) {
-        User user = repository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         if(user != null){
             return UserMapper.userToDto(user);
         } else return null;
@@ -62,24 +72,24 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = repository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), new ArrayList<>());
     }
 
     public String getToken(LoginRequest request) {
-        return this.jwtUtil.generateToken(repository.findByEmail(request.getEmail()));
+        return this.jwtUtil.generateToken(userRepository.findByEmail(request.getEmail()));
     }
 
     public Integer getUserScore(Integer id) throws Exception {
         try{
-            Optional<User> user = repository.findById(id);
+            Optional<User> user = userRepository.findById(id);
 
             if(user.isPresent()) {
-                return repository.getUserScore(id);
+                return userRepository.getUserScore(id);
             }
 
-            throw new Exception("Usuário não encontrado");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
 
         } catch(Exception e){
             throw new Exception(e.getMessage(), e);
@@ -102,7 +112,7 @@ public class UserService implements UserDetailsService {
 
     public List<TopDto> getTopList() throws Exception{
         try{
-            List<UserDto> userDtoList = repository.getTopList().stream()
+            List<UserDto> userDtoList = userRepository.getTopList().stream()
                     .map(UserMapper::userToDto)
                     .collect(Collectors.toList());
 
@@ -127,7 +137,7 @@ public class UserService implements UserDetailsService {
 
     public UserDto setRfid(String email, String rfid) throws Exception {
         try{
-            User user = repository.findByEmail(email);
+            User user = userRepository.findByEmail(email);
 
             if(user != null){
                 user.setRfid(rfid);
