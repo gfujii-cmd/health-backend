@@ -1,7 +1,7 @@
 package haoc.fiap.healthbackend.controller;
 
+import haoc.fiap.healthbackend.dto.TopDto;
 import haoc.fiap.healthbackend.dto.UserDto;
-import haoc.fiap.healthbackend.entity.User;
 import haoc.fiap.healthbackend.response.BaseResponse;
 import haoc.fiap.healthbackend.response.TokenResponse;
 import haoc.fiap.healthbackend.resquest.LoginRequest;
@@ -15,6 +15,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -68,6 +70,15 @@ public class UserController {
                         .response(score)
                         .message("Score retornado com sucesso")
                         .httpCode(200)
+                .build());
+    }
+
+    @GetMapping("/top")
+    public ResponseEntity<BaseResponse<List<TopDto>>> getTopList() throws Exception {
+        return ResponseEntity.ok(BaseResponse.<List<TopDto>>builder()
+                        .httpCode(200)
+                        .message("OK")
+                        .response(userService.getTopList())
                 .build());
     }
 

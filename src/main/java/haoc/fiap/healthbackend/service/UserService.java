@@ -1,5 +1,6 @@
 package haoc.fiap.healthbackend.service;
 
+import haoc.fiap.healthbackend.dto.TopDto;
 import haoc.fiap.healthbackend.dto.UserDto;
 import haoc.fiap.healthbackend.entity.HandWashData;
 import haoc.fiap.healthbackend.entity.User;
@@ -18,7 +19,9 @@ import haoc.fiap.healthbackend.jwt.JwtUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -86,5 +89,31 @@ public class UserService implements UserDetailsService {
                         .countSaturday(0)
                         .countSunday(0)
                 .build());
+    }
+
+    public List<TopDto> getTopList() throws Exception{
+        try{
+            List<UserDto> userDtoList = repository.getTopList().stream()
+                    .map(UserMapper::userToDto)
+                    .collect(Collectors.toList());
+
+            if(!userDtoList.isEmpty()) {
+                List<TopDto> topDtoList = new ArrayList<>();
+                userDtoList.forEach(user -> {
+                    topDtoList.add(TopDto.builder()
+                                    .name(user.getName())
+                                    .lastName(user.getLastName())
+                                    .score(user.getScore())
+                            .build());
+                });
+
+                return topDtoList;
+            }
+
+            throw new Exception("Não foi possível encontrar o top 3");
+        } catch (Exception e){
+            throw new Exception(e.getMessage(), e);
+        }
+
     }
 }
