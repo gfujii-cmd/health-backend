@@ -16,4 +16,5 @@ public class WashMachineDto {
     private Integer minute;
     private Integer lastHour;
     private Integer lastMinute;
+    private String macAddress;
 }

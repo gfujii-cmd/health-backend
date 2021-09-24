@@ -19,6 +19,7 @@ public class WashMachineMapper {
                 .minute(wash.getMinute())
                 .lastHour(wash.getLastHour())
                 .lastMinute(wash.getLastMinute())
+                .macAddress(wash.getMacAddress())
                 .build();
     }
 }

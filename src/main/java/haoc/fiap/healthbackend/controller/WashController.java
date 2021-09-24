@@ -34,7 +34,7 @@ public class WashController {
     @PostMapping("/register")
     public ResponseEntity<BaseResponse<WashMachineDto>> createWashMachine(@RequestBody WashMachineRequest request)
             throws Exception {
-        WashMachineDto dto = washMachineService.createWashMachine(request.getLocation());
+        WashMachineDto dto = washMachineService.createWashMachine(request);
 
         return ResponseEntity.ok(BaseResponse.<WashMachineDto>builder()
                         .message("Maquina cadastrada com sucesso")

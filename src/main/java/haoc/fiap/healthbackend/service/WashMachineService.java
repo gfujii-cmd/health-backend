@@ -9,6 +9,7 @@ import haoc.fiap.healthbackend.repository.HandWashRepository;
 import haoc.fiap.healthbackend.repository.UserRepository;
 import haoc.fiap.healthbackend.repository.WashMachineRepository;
 import haoc.fiap.healthbackend.resquest.WashMachineInfoRequest;
+import haoc.fiap.healthbackend.resquest.WashMachineRequest;
 import lombok.RequiredArgsConstructor;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -81,15 +82,16 @@ public class WashMachineService {
         return washMachineRepository.findById(id);
     }
 
-    public WashMachineDto createWashMachine(String location) throws Exception{
+    public WashMachineDto createWashMachine(WashMachineRequest request) throws Exception{
         WashMachine entity = WashMachine.builder()
                 .count(0)
-                .location(location)
+                .location(request.getLocation())
                 .hour(LocalTime.now().getHourOfDay())
                 .date(LocalDate.now().toString())
                 .minute(LocalTime.now().getMinuteOfHour())
                 .lastHour(LocalTime.now().getHourOfDay())
                 .lastMinute(LocalTime.now().getMinuteOfHour())
+                .macAddress(request.getMacAddress())
                 .build();
         try {
             return WashMachineMapper.washToDto(washMachineRepository.save(entity));
