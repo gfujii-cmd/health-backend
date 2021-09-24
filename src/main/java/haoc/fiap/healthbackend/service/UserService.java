@@ -14,6 +14,7 @@ import haoc.fiap.healthbackend.resquest.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -146,6 +147,18 @@ public class UserService implements UserDetailsService {
 
         } catch (Exception e){
             throw new Exception(e.getMessage(), e);
+        }
+    }
+
+    public UserDto setHour(Integer entry, Integer exit, String rfid){
+        Optional<User> user = userRepository.findByRfid(rfid);
+        if(user.isPresent()){
+            user.get().setEntryHour(entry);
+            user.get().setExitHour(exit);
+
+            return UserMapper.userToDto(userRepository.save(user.get()));
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
         }
     }
 }

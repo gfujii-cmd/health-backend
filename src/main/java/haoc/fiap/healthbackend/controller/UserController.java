@@ -92,4 +92,15 @@ public class UserController {
                 .build());
     }
 
+    @PutMapping("/{rfid}/set-hour/{entry}/{exit}")
+    public ResponseEntity<BaseResponse<UserDto>> setHour(@PathVariable("entry") Integer entry,
+                                                         @PathVariable("exit") Integer exit,
+                                                         @PathVariable("rfid") String rfid){
+        return ResponseEntity.ok(BaseResponse.<UserDto>builder()
+                        .response(userService.setHour(entry,exit,rfid))
+                        .message("Cadastrado com sucesso")
+                        .httpCode(200)
+                .build());
+    }
+
 }
