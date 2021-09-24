@@ -11,6 +11,7 @@ import haoc.fiap.healthbackend.repository.JobRepository;
 import haoc.fiap.healthbackend.repository.UserRepository;
 import haoc.fiap.healthbackend.resquest.LoginRequest;
 import haoc.fiap.healthbackend.resquest.UserRequest;
+import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -138,12 +139,12 @@ public class UserService implements UserDetailsService {
 
     public UserDto setRfid(String email, String rfid) throws Exception {
         try{
-            User user = userRepository.findByEmail(email);
+            Optional<User> user = Optional.ofNullable(userRepository.findByEmail(email));
 
-            if(user != null){
-                user.setRfid(rfid);
+            if(user.isPresent()){
+                user.get().setRfid(rfid);
             }
-            throw new Exception("Usuário não encontrado");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
 
         } catch (Exception e){
             throw new Exception(e.getMessage(), e);
