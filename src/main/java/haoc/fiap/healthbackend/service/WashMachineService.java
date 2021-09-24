@@ -14,8 +14,10 @@ import lombok.RequiredArgsConstructor;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.DayOfWeek;
 import java.time.Month;
@@ -36,7 +38,7 @@ public class WashMachineService {
     private HandWashRepository handWashRepository;
 
     public WashMachineDto setWashMachineInfo(WashMachineInfoRequest request) throws Exception {
-        Optional<WashMachine> washData = getWashMachineInfo(request.getMachineId());
+        Optional<WashMachine> washData = getWashMachineInfo(request.getMachineMacAddress());
         Optional<User> user = userRepository.findById(request.getUserId());
 
         if(user.isPresent()) {
@@ -50,7 +52,8 @@ public class WashMachineService {
                 Boolean isSamePerson = Objects.equals(washData.get().getLastUserMail(), user.get().getEmail());
 
                 if (isSamePerson && !isIntervalAccepted) {
-                    throw new Exception("Tempo não passa de 5 minutos para a mesma pessoa!");
+                    throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,
+                            "Tempo não passa de 5 minutos para a mesma pessoa!");
                 } else {
                     // Criando nova maquina com dados novos
                     WashMachine machineEntity = setNewEntity(washData.get(), user.get().getEmail());
@@ -75,11 +78,11 @@ public class WashMachineService {
                 }
             }
         }
-        throw new Exception("Maquina não encontrada");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Maquina não encontrada");
     }
 
-    public Optional<WashMachine> getWashMachineInfo(Integer id){
-        return washMachineRepository.findById(id);
+    public Optional<WashMachine> getWashMachineInfo(String macAddress){
+        return washMachineRepository.findByMacAddress(macAddress);
     }
 
     public WashMachineDto createWashMachine(WashMachineRequest request) throws Exception{
