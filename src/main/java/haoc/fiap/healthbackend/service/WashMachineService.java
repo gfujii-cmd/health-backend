@@ -39,7 +39,7 @@ public class WashMachineService {
 
     public WashMachineDto setWashMachineInfo(WashMachineInfoRequest request) throws Exception {
         Optional<WashMachine> washData = getWashMachineInfo(request.getMachineMacAddress());
-        Optional<User> user = userRepository.findById(request.getUserId());
+        Optional<User> user = userRepository.findByRfid(request.getUserRfId());
 
         if(user.isPresent()) {
             if (washData.isPresent()) {

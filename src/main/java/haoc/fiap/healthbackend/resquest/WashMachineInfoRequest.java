@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class WashMachineInfoRequest {
 
-    private Integer userId;
+    private String userRfId;
 
     private String machineMacAddress;
 }
