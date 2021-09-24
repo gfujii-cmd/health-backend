@@ -28,4 +28,8 @@ public class UserDto {
     private String updatedAt;
 
     private Integer count;
+
+    private Integer entryHour;
+
+    private Integer exitHour;
 }

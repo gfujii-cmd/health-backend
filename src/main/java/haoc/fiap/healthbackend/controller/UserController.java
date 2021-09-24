@@ -82,4 +82,25 @@ public class UserController {
                 .build());
     }
 
+    @PutMapping("/{email}/set-rfid/{rfid}")
+    public ResponseEntity<BaseResponse<UserDto>> setRfid(@PathVariable("email") String email,
+                                                         @PathVariable("rfid") String rfid) throws Exception {
+        return ResponseEntity.ok(BaseResponse.<UserDto>builder()
+                        .httpCode(200)
+                        .message("Cadastrado com sucesso")
+                        .response(userService.setRfid(email, rfid))
+                .build());
+    }
+
+    @PutMapping("/{rfid}/set-hour/{entry}/{exit}")
+    public ResponseEntity<BaseResponse<UserDto>> setHour(@PathVariable("entry") Integer entry,
+                                                         @PathVariable("exit") Integer exit,
+                                                         @PathVariable("rfid") String rfid){
+        return ResponseEntity.ok(BaseResponse.<UserDto>builder()
+                        .response(userService.setHour(entry,exit,rfid))
+                        .message("Cadastrado com sucesso")
+                        .httpCode(200)
+                .build());
+    }
+
 }

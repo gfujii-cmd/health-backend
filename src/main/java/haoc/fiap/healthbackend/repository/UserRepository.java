@@ -6,10 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String email);
+
+    Optional<User> findByRfid(String rfid);
 
     @Transactional(readOnly = true)
     @Query(value = "SELECT SCORE FROM USERS "
