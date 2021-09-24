@@ -143,6 +143,8 @@ public class UserService implements UserDetailsService {
 
             if(user.isPresent()){
                 user.get().setRfid(rfid);
+
+                return UserMapper.userToDto(userRepository.save(user.get()));
             }
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
 
