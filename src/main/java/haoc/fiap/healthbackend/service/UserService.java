@@ -3,9 +3,11 @@ package haoc.fiap.healthbackend.service;
 import haoc.fiap.healthbackend.dto.TopDto;
 import haoc.fiap.healthbackend.dto.UserDto;
 import haoc.fiap.healthbackend.entity.HandWashData;
+import haoc.fiap.healthbackend.entity.Job;
 import haoc.fiap.healthbackend.entity.User;
 import haoc.fiap.healthbackend.mapper.UserMapper;
 import haoc.fiap.healthbackend.repository.HandWashRepository;
+import haoc.fiap.healthbackend.repository.JobRepository;
 import haoc.fiap.healthbackend.repository.UserRepository;
 import haoc.fiap.healthbackend.resquest.LoginRequest;
 import haoc.fiap.healthbackend.resquest.UserRequest;
@@ -35,9 +37,16 @@ public class UserService implements UserDetailsService {
     @Autowired
     private HandWashRepository handWashRepository;
 
+    @Autowired
+    private JobRepository jobRepository;
+
     public UserDto registerUser(UserRequest user) throws Exception{
         if(user.getPassword().length() < 8){
             throw new Exception("Senha menor que 8 caracteres");
+        }
+        Job job = jobRepository.findByName(user.getJob().getName());
+        if(job != null){
+            user.setJob(job);
         }
         User response = repository.save(UserMapper.toUser(user));
         registerWashData(response);

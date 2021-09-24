@@ -2,6 +2,7 @@ package haoc.fiap.healthbackend.mapper;
 
 import haoc.fiap.healthbackend.dto.JobDto;
 import haoc.fiap.healthbackend.entity.Job;
+import haoc.fiap.healthbackend.resquest.JobRequest;
 import lombok.Data;
 
 import java.util.List;
@@ -21,5 +22,11 @@ public class JobMapper {
         return jobs.stream()
                 .map(JobMapper::jobToDto)
                 .collect(Collectors.toList());
+    }
+
+    public static Job toJob(JobRequest request){
+        return Job.builder()
+                .name(request.getName())
+                .build();
     }
 }
