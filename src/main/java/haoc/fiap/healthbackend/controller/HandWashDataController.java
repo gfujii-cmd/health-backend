@@ -14,13 +14,13 @@ public class HandWashDataController {
 
     private final HandWashService handWashService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<BaseResponse<HandWashDataDto>> getWashData(@PathVariable("id") Integer id)
+    @GetMapping("{email}")
+    public ResponseEntity<BaseResponse<HandWashDataDto>> getWashData(@PathVariable("email") String email)
             throws Exception{
 
         return ResponseEntity.ok(BaseResponse.<HandWashDataDto>builder()
                         .httpCode(200)
-                        .response(handWashService.getHandWashDataFrom(id))
+                        .response(handWashService.getHandWashDataFrom(email))
                         .message("Dados retornados com sucesso")
                 .build());
     }
