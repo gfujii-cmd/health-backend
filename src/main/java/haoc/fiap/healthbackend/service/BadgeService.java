@@ -47,12 +47,12 @@ public class BadgeService {
         boolean isEnough;
         switch (user.getBadge().getLevel()) {
             case 1:
-                isEnough = user.getScore() > 100;
+                isEnough = user.getScore() > 1000;
             case 2:
-                isEnough = user.getScore() > 200;
+                isEnough = user.getScore() > 2000;
                 break;
             case 3:
-                isEnough = user.getScore() > 300;
+                isEnough = user.getScore() > 3000;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + user.getBadge().getLevel());
