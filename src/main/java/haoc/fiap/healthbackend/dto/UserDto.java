@@ -32,4 +32,6 @@ public class UserDto {
     private Integer entryHour;
 
     private Integer exitHour;
+
+    private Integer level;
 }
