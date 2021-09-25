@@ -31,6 +31,7 @@ public class UserMapper {
                 .createdAt(DateTime.now().toString())
                 .updatedAt(DateTime.now().toString())
                 .count(0)
+                .level(user.getBadge().getLevel())
                 .build();
     }
 
