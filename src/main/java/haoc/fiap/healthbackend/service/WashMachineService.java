@@ -164,28 +164,30 @@ public class WashMachineService {
     private HandWashData chooseDayToCount(HandWashData handWashData, User user,
                                           Integer dayOfWeekInt, Boolean sameMonth){
         // Se for no mesmo mês mantem os valores, se não zera
-        handWashData = sameMonth ? handWashData : setZeroInAllDays(handWashData);
+        if (!sameMonth) {
+            setZeroInAllDays(handWashData);
+        }
 
         switch(dayOfWeekInt){
-            case 1:
+            case 0:
                 handWashData.setCountMonday(handWashData.getCountMonday() + 1);
                 break;
-            case 2:
+            case 1:
                 handWashData.setCountTuesday(handWashData.getCountTuesday() + 1);
                 break;
-            case 3:
+            case 2:
                 handWashData.setCountWednesday(handWashData.getCountWednesday() + 1);
                 break;
-            case 4:
+            case 3:
                 handWashData.setCountThursday(handWashData.getCountThursday() + 1);
                 break;
-            case 5:
+            case 4:
                 handWashData.setCountFriday(handWashData.getCountFriday() + 1);
                 break;
-            case 6:
+            case 5:
                 handWashData.setCountSaturday(handWashData.getCountSaturday() + 1);
                 break;
-            case 7:
+            case 6:
                 handWashData.setCountSunday(handWashData.getCountSunday() + 1);
                 break;
         }
