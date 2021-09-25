@@ -2,10 +2,12 @@ package haoc.fiap.healthbackend.service;
 
 import haoc.fiap.healthbackend.dto.TopDto;
 import haoc.fiap.healthbackend.dto.UserDto;
+import haoc.fiap.healthbackend.entity.Badge;
 import haoc.fiap.healthbackend.entity.HandWashData;
 import haoc.fiap.healthbackend.entity.Job;
 import haoc.fiap.healthbackend.entity.User;
 import haoc.fiap.healthbackend.mapper.UserMapper;
+import haoc.fiap.healthbackend.repository.BadgeRepository;
 import haoc.fiap.healthbackend.repository.HandWashRepository;
 import haoc.fiap.healthbackend.repository.JobRepository;
 import haoc.fiap.healthbackend.repository.UserRepository;
@@ -44,20 +46,23 @@ public class UserService implements UserDetailsService {
     @Autowired
     private JobRepository jobRepository;
 
+    @Autowired
+    private BadgeRepository badgeRepository;
+
     public UserDto registerUser(UserRequest user) throws Exception{
         if(user.getPassword().length() < 8){
             throw new Exception("Senha menor que 8 caracteres");
         }
 
         Optional<User> userInDatabase = Optional.ofNullable(userRepository.findByEmail(user.getEmail()));
-
+        Badge badge = badgeRepository.findByLevel(1);
         if(userInDatabase.isPresent()){
             throw new ResponseStatusException(HttpStatus.MULTI_STATUS, "Usuário já existe");
         }
         Optional<Job> job = jobRepository.findByName(user.getJob().getName());
         if(job.isPresent()){
             user.setJob(job.get());
-            User response = userRepository.save(UserMapper.toUser(user));
+            User response = userRepository.save(UserMapper.toUser(user, badge));
             registerWashData(response);
             return UserMapper.userToDto(response);
         } else {
