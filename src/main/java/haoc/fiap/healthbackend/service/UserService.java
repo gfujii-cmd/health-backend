@@ -83,12 +83,12 @@ public class UserService implements UserDetailsService {
         return this.jwtUtil.generateToken(userRepository.findByEmail(request.getEmail()));
     }
 
-    public Integer getUserScore(Integer id) throws Exception {
+    public Integer getUserScore(String email) throws Exception {
         try{
-            Optional<User> user = userRepository.findById(id);
+            Optional<User> user = Optional.ofNullable(userRepository.findByEmail(email));
 
             if(user.isPresent()) {
-                return userRepository.getUserScore(id);
+                return userRepository.getUserScore(email);
             }
 
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");

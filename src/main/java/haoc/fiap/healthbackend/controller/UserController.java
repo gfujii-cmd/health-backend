@@ -62,9 +62,9 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}/score")
-    public ResponseEntity<BaseResponse<Integer>> getUserScore(@PathVariable("id") Integer id) throws Exception{
-        Integer score = userService.getUserScore(id);
+    @GetMapping("/{email}/score")
+    public ResponseEntity<BaseResponse<Integer>> getUserScore(@PathVariable("email") String email) throws Exception{
+        Integer score = userService.getUserScore(email);
 
         return ResponseEntity.ok(BaseResponse.<Integer>builder()
                         .response(score)

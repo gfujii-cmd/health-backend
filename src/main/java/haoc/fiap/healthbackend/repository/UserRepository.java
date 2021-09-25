@@ -16,8 +16,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Transactional(readOnly = true)
     @Query(value = "SELECT SCORE FROM USERS "
-            + "WHERE USER_ID = :id", nativeQuery = true)
-    Integer getUserScore(Integer id);
+            + "WHERE EMAIL = :email", nativeQuery = true)
+    Integer getUserScore(String email);
 
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM USERS " +
