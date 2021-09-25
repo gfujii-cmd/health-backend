@@ -2,6 +2,7 @@ package haoc.fiap.healthbackend.mapper;
 
 import haoc.fiap.healthbackend.dto.UserDto;
 import haoc.fiap.healthbackend.dto.WashMachineDto;
+import haoc.fiap.healthbackend.entity.Badge;
 import haoc.fiap.healthbackend.entity.User;
 import haoc.fiap.healthbackend.resquest.UserRequest;
 import lombok.Data;
@@ -30,12 +31,12 @@ public class UserMapper {
                 .washData(new ArrayList<>())
                 .createdAt(DateTime.now().toString())
                 .updatedAt(DateTime.now().toString())
-                .count(0)
+                .count(user.getCount())
                 .level(user.getBadge().getLevel())
                 .build();
     }
 
-    public static User toUser(UserRequest request) {
+    public static User toUser(UserRequest request, Badge badge) {
         return User.builder()
                 .name(request.getName())
                 .lastName(request.getLastName())
@@ -48,6 +49,7 @@ public class UserMapper {
                 .createdAt(DateTime.now().toString())
                 .updatedAt(DateTime.now().toString())
                 .count(0)
+                .badge(badge)
                 .build();
     }
 }

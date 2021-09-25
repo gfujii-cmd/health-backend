@@ -1,5 +1,6 @@
 package haoc.fiap.healthbackend.resquest;
 
+import haoc.fiap.healthbackend.entity.Badge;
 import haoc.fiap.healthbackend.entity.Job;
 import lombok.Data;
 
